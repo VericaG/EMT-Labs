@@ -1,9 +1,8 @@
-package mk.ukim.finki.emt2025b.emt2025b.model;
+package mk.ukim.finki.emt2025b.emt2025b.model.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import mk.ukim.finki.emt2025b.emt2025b.model.enumerations.AccommodationCategory;
 
 @Entity
 @NoArgsConstructor

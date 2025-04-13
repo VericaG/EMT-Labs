@@ -1,9 +1,9 @@
 package mk.ukim.finki.emt2025b.emt2025b.config;
 
 import jakarta.annotation.PostConstruct;
-import mk.ukim.finki.emt2025b.emt2025b.model.Accommodation;
-import mk.ukim.finki.emt2025b.emt2025b.model.Country;
-import mk.ukim.finki.emt2025b.emt2025b.model.Host;
+import mk.ukim.finki.emt2025b.emt2025b.model.domain.Accommodation;
+import mk.ukim.finki.emt2025b.emt2025b.model.domain.Country;
+import mk.ukim.finki.emt2025b.emt2025b.model.domain.Host;
 import mk.ukim.finki.emt2025b.emt2025b.model.enumerations.AccommodationCategory;
 import mk.ukim.finki.emt2025b.emt2025b.repository.AccommodationRepository;
 import mk.ukim.finki.emt2025b.emt2025b.repository.CountryRepository;

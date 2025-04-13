@@ -1,11 +1,9 @@
-package mk.ukim.finki.emt2025b.emt2025b.service.impl;
+package mk.ukim.finki.emt2025b.emt2025b.service.domain.impl;
 
-import mk.ukim.finki.emt2025b.emt2025b.model.Accommodation;
-import mk.ukim.finki.emt2025b.emt2025b.model.Country;
-import mk.ukim.finki.emt2025b.emt2025b.model.dto.CountryDto;
-import mk.ukim.finki.emt2025b.emt2025b.model.enumerations.AccommodationCategory;
+import mk.ukim.finki.emt2025b.emt2025b.model.domain.Country;
+import mk.ukim.finki.emt2025b.emt2025b.dto.CreateCountryDto;
 import mk.ukim.finki.emt2025b.emt2025b.repository.CountryRepository;
-import mk.ukim.finki.emt2025b.emt2025b.service.CountryService;
+import mk.ukim.finki.emt2025b.emt2025b.service.domain.CountryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +24,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public Optional<Country> save(CountryDto country) {
+    public Optional<Country> save(Country country) {
         return Optional.of(countryRepository.save(new Country(country.getName(), country.getContinent())));
     }
 
@@ -36,7 +34,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public Optional<Country> update(Long id, CountryDto country) {
+    public Optional<Country> update(Long id, Country country) {
         return countryRepository.findById(id).map(existingCountry -> {
             if (country.getName() != null) {
                 existingCountry.setName(country.getName());

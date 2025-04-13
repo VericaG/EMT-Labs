@@ -1,39 +1,45 @@
 package mk.ukim.finki.emt2025b.emt2025b.web;
 
 import io.swagger.v3.oas.annotations.Operation;
-import mk.ukim.finki.emt2025b.emt2025b.model.Accommodation;
-import mk.ukim.finki.emt2025b.emt2025b.model.dto.AccommodationDto;
-import mk.ukim.finki.emt2025b.emt2025b.service.AccommodationService;
+import mk.ukim.finki.emt2025b.emt2025b.dto.DisplayAccommodationDto;
+import mk.ukim.finki.emt2025b.emt2025b.model.domain.Accommodation;
+import mk.ukim.finki.emt2025b.emt2025b.dto.CreateAccommodationDto;
+import mk.ukim.finki.emt2025b.emt2025b.service.application.AccommodationApplicationService;
+import mk.ukim.finki.emt2025b.emt2025b.service.domain.AccommodationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/accommodations")
+@Tag(name = "Accommodation API", description = "Endpoints for managing accommodations")
+
 public class AccommodationController {
 
-    private final AccommodationService accommodationService;
+    private final AccommodationApplicationService accommodationService;
 
-    public AccommodationController(AccommodationService accommodationService) {
+    public AccommodationController(AccommodationApplicationService accommodationService) {
         this.accommodationService = accommodationService;
     }
 
     @Operation(summary = "Земање на сите Accommodations")
     @GetMapping
-    public List<Accommodation> findAll() {
+    public List<DisplayAccommodationDto> findAll() {
         return accommodationService.findAll();
     }
 
     @Operation(summary = "Пребарување на Accommodation по ID")
     @GetMapping("/{id}")
-    public ResponseEntity<Accommodation> findById(@PathVariable Long id) {
+    public ResponseEntity<DisplayAccommodationDto> findById(@PathVariable Long id) {
         return accommodationService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @Operation(summary = "Додавање на Accommodation по ID")
     @PostMapping("/add")
-    public ResponseEntity<Accommodation> save(@RequestBody AccommodationDto accommodation) {
+    public ResponseEntity<DisplayAccommodationDto> save(@RequestBody CreateAccommodationDto accommodation) {
         return accommodationService.save(accommodation)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -42,7 +48,7 @@ public class AccommodationController {
 
     @Operation(summary = "Едитирање на Accommodation по ID")
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Accommodation> update(@PathVariable Long id, @RequestBody AccommodationDto accommodation) {
+    public ResponseEntity<DisplayAccommodationDto> update(@PathVariable Long id, @RequestBody CreateAccommodationDto accommodation) {
         return accommodationService.update(id, accommodation)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -61,9 +67,9 @@ public class AccommodationController {
 
     @Operation(summary = "Предложување на слични Accomodations")
     @GetMapping("/recommend/{id}")
-    public List<Accommodation> recommendSimilarAccomodations(@PathVariable Long id) {
-        Accommodation accommodation = accommodationService.findById(id).get();
-        return accommodationService.findRecommendedAccomodations(accommodation.getCategory(), id);
+    public List<DisplayAccommodationDto> recommendSimilarAccomodations(@PathVariable Long id) {
+        DisplayAccommodationDto accommodation = accommodationService.findById(id).get();
+        return accommodationService.findRecommendedAccomodations(accommodation.category(), id);
     }
 
 

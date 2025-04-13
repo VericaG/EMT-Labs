@@ -1,9 +1,12 @@
 package mk.ukim.finki.emt2025b.emt2025b.web;
 
 import io.swagger.v3.oas.annotations.Operation;
-import mk.ukim.finki.emt2025b.emt2025b.model.Country;
-import mk.ukim.finki.emt2025b.emt2025b.model.dto.CountryDto;
-import mk.ukim.finki.emt2025b.emt2025b.service.CountryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import mk.ukim.finki.emt2025b.emt2025b.dto.DisplayCountryDto;
+import mk.ukim.finki.emt2025b.emt2025b.model.domain.Country;
+import mk.ukim.finki.emt2025b.emt2025b.dto.CreateCountryDto;
+import mk.ukim.finki.emt2025b.emt2025b.service.application.CountryApplicationService;
+import mk.ukim.finki.emt2025b.emt2025b.service.domain.CountryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,24 +14,27 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/countries")
+@Tag(name = "Country API", description = "Endpoints for managing countries")
+
+
 public class CountryController {
 
-    private final CountryService countryService;
+    private final CountryApplicationService countryService;
 
-    public CountryController(CountryService countryService) {
+    public CountryController(CountryApplicationService countryService) {
         this.countryService = countryService;
     }
 
 
     @Operation(summary = "Земање на сите Countries")
     @GetMapping
-    public List<Country> findAll() {
+    public List<DisplayCountryDto> findAll() {
         return countryService.findAll();
     }
 
     @Operation(summary = "Пребарување на Country по ID")
     @GetMapping("/{id}")
-    public ResponseEntity<Country> findById(@PathVariable Long id) {
+    public ResponseEntity<DisplayCountryDto> findById(@PathVariable Long id) {
         return countryService.findById(id)
                 .map(c -> ResponseEntity.ok().body(c))
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -36,7 +42,7 @@ public class CountryController {
 
     @Operation(summary = "Додавање на Country по ID")
     @PostMapping("/add")
-    public ResponseEntity<Country> save(@RequestBody CountryDto country) {
+    public ResponseEntity<DisplayCountryDto> save(@RequestBody CreateCountryDto country) {
         return countryService.save(country)
                 .map(c -> ResponseEntity.ok().body(c))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
@@ -44,7 +50,7 @@ public class CountryController {
 
     @Operation(summary = "Едитирање на Country по ID")
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Country> update(@PathVariable Long id, @RequestBody CountryDto country) {
+    public ResponseEntity<DisplayCountryDto> update(@PathVariable Long id, @RequestBody CreateCountryDto country) {
         return countryService.update(id, country)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());

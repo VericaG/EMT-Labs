@@ -1,18 +1,16 @@
-package mk.ukim.finki.emt2025b.emt2025b.service.impl;
+package mk.ukim.finki.emt2025b.emt2025b.service.domain.impl;
 
-import jdk.jfr.Category;
-import mk.ukim.finki.emt2025b.emt2025b.model.Accommodation;
-import mk.ukim.finki.emt2025b.emt2025b.model.dto.AccommodationDto;
+import mk.ukim.finki.emt2025b.emt2025b.model.domain.Accommodation;
+import mk.ukim.finki.emt2025b.emt2025b.dto.CreateAccommodationDto;
 import mk.ukim.finki.emt2025b.emt2025b.model.enumerations.AccommodationCategory;
 import mk.ukim.finki.emt2025b.emt2025b.repository.AccommodationRepository;
-import mk.ukim.finki.emt2025b.emt2025b.service.AccommodationService;
-import mk.ukim.finki.emt2025b.emt2025b.service.CountryService;
-import mk.ukim.finki.emt2025b.emt2025b.service.HostService;
+import mk.ukim.finki.emt2025b.emt2025b.service.domain.AccommodationService;
+import mk.ukim.finki.emt2025b.emt2025b.service.domain.CountryService;
+import mk.ukim.finki.emt2025b.emt2025b.service.domain.HostService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class AccommodationServiceImpl implements AccommodationService {
@@ -38,30 +36,30 @@ public class AccommodationServiceImpl implements AccommodationService {
     }
 
     @Override
-    public Optional<Accommodation> update(Long id, AccommodationDto accommodation) {
+    public Optional<Accommodation> update(Long id, Accommodation accommodation) {
         return accommodationRepository.findById(id)
                 .map(existingAcc -> {
                     if(accommodation.getName() != null) {
                         existingAcc.setName(accommodation.getName());
                     }
                     if(accommodation.getCategory() != null) {
-                        existingAcc.setCategory(AccommodationCategory.valueOf(accommodation.getCategory()));
+                        existingAcc.setCategory(AccommodationCategory.valueOf(accommodation.getCategory().name()));
                     }
                     if(accommodation.getNumRooms() != null) {
                         existingAcc.setNumRooms(accommodation.getNumRooms());
                     }
-                    if(accommodation.getHost() != null && hostService.findById(accommodation.getHost()).isPresent()) {
-                        existingAcc.setHost(hostService.findById(accommodation.getHost()).get());
+                    if(accommodation.getHost() != null && hostService.findById(accommodation.getHost().getId()).isPresent()) {
+                        existingAcc.setHost(hostService.findById(accommodation.getHost().getId()).get());
                     }
                     return accommodationRepository.save(existingAcc);
                 });
     }
 
     @Override
-    public Optional<Accommodation> save(AccommodationDto accommodation) {
-        if(accommodation.getHost() != null && hostService.findById(accommodation.getHost()).isPresent()) {
+    public Optional<Accommodation> save(Accommodation accommodation) {
+        if(accommodation.getHost() != null && hostService.findById(accommodation.getHost().getId()).isPresent()) {
             return Optional.of(
-                    accommodationRepository.save(new Accommodation(accommodation.getName(), AccommodationCategory.valueOf(accommodation.getCategory()), hostService.findById(accommodation.getHost()).get(), accommodation.getNumRooms()))
+                    accommodationRepository.save(new Accommodation(accommodation.getName(), AccommodationCategory.valueOf(accommodation.getCategory().name()), hostService.findById(accommodation.getHost().getId()).get(), accommodation.getNumRooms()))
             );
         }
         return Optional.empty();

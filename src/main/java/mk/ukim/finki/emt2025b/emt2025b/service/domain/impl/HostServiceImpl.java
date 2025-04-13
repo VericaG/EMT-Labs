@@ -1,10 +1,10 @@
-package mk.ukim.finki.emt2025b.emt2025b.service.impl;
+package mk.ukim.finki.emt2025b.emt2025b.service.domain.impl;
 
-import mk.ukim.finki.emt2025b.emt2025b.model.Host;
-import mk.ukim.finki.emt2025b.emt2025b.model.dto.HostDto;
+import mk.ukim.finki.emt2025b.emt2025b.model.domain.Host;
+import mk.ukim.finki.emt2025b.emt2025b.dto.CreateHostDto;
 import mk.ukim.finki.emt2025b.emt2025b.repository.HostRepository;
-import mk.ukim.finki.emt2025b.emt2025b.service.CountryService;
-import mk.ukim.finki.emt2025b.emt2025b.service.HostService;
+import mk.ukim.finki.emt2025b.emt2025b.service.domain.CountryService;
+import mk.ukim.finki.emt2025b.emt2025b.service.domain.HostService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public class HostServiceImpl implements HostService {
     }
 
     @Override
-    public Optional<Host> update(Long id, HostDto host) {
+    public Optional<Host> update(Long id, Host host) {
         return hostRepository.findById(id)
                 .map(existingHost -> {
                     if(host.getName() != null) {
@@ -41,18 +41,18 @@ public class HostServiceImpl implements HostService {
                     if(host.getSurname() != null) {
                         existingHost.setSurname(host.getSurname());
                     }
-                    if(host.getCountry() != null && countryService.findById(host.getCountry()).isPresent()) {
-                        existingHost.setCountry(countryService.findById(host.getCountry()).get());
+                    if(host.getCountry() != null && countryService.findById(host.getCountry().getId()).isPresent()) {
+                        existingHost.setCountry(countryService.findById(host.getCountry().getId()).get());
                     }
                     return hostRepository.save(existingHost);
                 });
     }
 
     @Override
-    public Optional<Host> save(HostDto host) {
-        if (host.getCountry() != null && countryService.findById(host.getCountry()).isPresent()) {
+    public Optional<Host> save(Host host) {
+        if (host.getCountry() != null && countryService.findById(host.getCountry().getId()).isPresent()) {
             return Optional.of(
-                    hostRepository.save(new Host(host.getName(), host.getSurname(), countryService.findById(host.getCountry()).get()))
+                    hostRepository.save(new Host(host.getName(), host.getSurname(), countryService.findById(host.getCountry().getId()).get()))
             );
         }
         return Optional.empty();

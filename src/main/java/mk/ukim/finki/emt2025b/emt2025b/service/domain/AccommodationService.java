@@ -1,8 +1,7 @@
-package mk.ukim.finki.emt2025b.emt2025b.service;
+package mk.ukim.finki.emt2025b.emt2025b.service.domain;
 
-import jdk.jfr.Category;
-import mk.ukim.finki.emt2025b.emt2025b.model.Accommodation;
-import mk.ukim.finki.emt2025b.emt2025b.model.dto.AccommodationDto;
+import mk.ukim.finki.emt2025b.emt2025b.model.domain.Accommodation;
+import mk.ukim.finki.emt2025b.emt2025b.dto.CreateAccommodationDto;
 import mk.ukim.finki.emt2025b.emt2025b.model.enumerations.AccommodationCategory;
 
 import java.util.List;
@@ -13,9 +12,9 @@ public interface AccommodationService {
 
     Optional<Accommodation> findById(Long id);
 
-    Optional<Accommodation> update(Long id, AccommodationDto accommodationDto);
+    Optional<Accommodation> update(Long id, Accommodation accommodation);
 
-    Optional<Accommodation> save(AccommodationDto accommodation);
+    Optional<Accommodation> save(Accommodation accommodation);
 
     void deleteById(Long id);
     void reserveAccommodation(Long accommodationId, int rooms);
