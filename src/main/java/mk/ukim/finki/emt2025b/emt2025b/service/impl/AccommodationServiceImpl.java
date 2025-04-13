@@ -1,0 +1,92 @@
+package mk.ukim.finki.emt2025b.emt2025b.service.impl;
+
+import jdk.jfr.Category;
+import mk.ukim.finki.emt2025b.emt2025b.model.Accommodation;
+import mk.ukim.finki.emt2025b.emt2025b.model.dto.AccommodationDto;
+import mk.ukim.finki.emt2025b.emt2025b.model.enumerations.AccommodationCategory;
+import mk.ukim.finki.emt2025b.emt2025b.repository.AccommodationRepository;
+import mk.ukim.finki.emt2025b.emt2025b.service.AccommodationService;
+import mk.ukim.finki.emt2025b.emt2025b.service.CountryService;
+import mk.ukim.finki.emt2025b.emt2025b.service.HostService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Service
+public class AccommodationServiceImpl implements AccommodationService {
+
+    private final AccommodationRepository accommodationRepository;
+    private final CountryService countryService;
+    private final HostService hostService;
+
+    public AccommodationServiceImpl(AccommodationRepository accommodationRepository, CountryService countryService, HostService hostService) {
+        this.accommodationRepository = accommodationRepository;
+        this.countryService = countryService;
+        this.hostService = hostService;
+    }
+
+    @Override
+    public List<Accommodation> findAll() {
+        return accommodationRepository.findAll();
+    }
+
+    @Override
+    public Optional<Accommodation> findById(Long id) {
+        return accommodationRepository.findById(id);
+    }
+
+    @Override
+    public Optional<Accommodation> update(Long id, AccommodationDto accommodation) {
+        return accommodationRepository.findById(id)
+                .map(existingAcc -> {
+                    if(accommodation.getName() != null) {
+                        existingAcc.setName(accommodation.getName());
+                    }
+                    if(accommodation.getCategory() != null) {
+                        existingAcc.setCategory(AccommodationCategory.valueOf(accommodation.getCategory()));
+                    }
+                    if(accommodation.getNumRooms() != null) {
+                        existingAcc.setNumRooms(accommodation.getNumRooms());
+                    }
+                    if(accommodation.getHost() != null && hostService.findById(accommodation.getHost()).isPresent()) {
+                        existingAcc.setHost(hostService.findById(accommodation.getHost()).get());
+                    }
+                    return accommodationRepository.save(existingAcc);
+                });
+    }
+
+    @Override
+    public Optional<Accommodation> save(AccommodationDto accommodation) {
+        if(accommodation.getHost() != null && hostService.findById(accommodation.getHost()).isPresent()) {
+            return Optional.of(
+                    accommodationRepository.save(new Accommodation(accommodation.getName(), AccommodationCategory.valueOf(accommodation.getCategory()), hostService.findById(accommodation.getHost()).get(), accommodation.getNumRooms()))
+            );
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        accommodationRepository.deleteById(id);
+    }
+
+    @Override
+    public void reserveAccommodation(Long accommodationId, int rooms) {
+        Accommodation accommodation = this.findById(accommodationId).get();
+        if(accommodation.getNumRooms() >= rooms) {
+            accommodation.setNumRooms(accommodation.getNumRooms() - rooms);
+        }
+        accommodationRepository.save(accommodation);
+    }
+
+    @Override
+    public List<Accommodation> findRecommendedAccomodations(AccommodationCategory category, Long accommodationId) {
+        Accommodation accommodation = this.findById(accommodationId).get();
+        AccommodationCategory cat = accommodation.getCategory();
+        return this.accommodationRepository.findAllByCategoryAndIdNot(cat, accommodationId);
+    }
+
+
+}
