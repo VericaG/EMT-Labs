@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Data
 @Entity
@@ -32,6 +33,10 @@ public class User implements UserDetails {
 
     @Enumerated(value = EnumType.STRING)
     private Role role;
+
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<ReservationsList> reservationsList;
 
     // default:
     // to-one -> FetchType.EAGER

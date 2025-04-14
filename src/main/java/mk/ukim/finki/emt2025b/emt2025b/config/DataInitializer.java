@@ -4,10 +4,14 @@ import jakarta.annotation.PostConstruct;
 import mk.ukim.finki.emt2025b.emt2025b.model.domain.Accommodation;
 import mk.ukim.finki.emt2025b.emt2025b.model.domain.Country;
 import mk.ukim.finki.emt2025b.emt2025b.model.domain.Host;
+import mk.ukim.finki.emt2025b.emt2025b.model.domain.User;
 import mk.ukim.finki.emt2025b.emt2025b.model.enumerations.AccommodationCategory;
+import mk.ukim.finki.emt2025b.emt2025b.model.enumerations.Role;
 import mk.ukim.finki.emt2025b.emt2025b.repository.AccommodationRepository;
 import mk.ukim.finki.emt2025b.emt2025b.repository.CountryRepository;
 import mk.ukim.finki.emt2025b.emt2025b.repository.HostRepository;
+import mk.ukim.finki.emt2025b.emt2025b.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,20 +21,21 @@ public class DataInitializer {
     private final HostRepository hostRepository;
     private final AccommodationRepository accommodationRepository;
 
-    public DataInitializer(CountryRepository countryRepository, HostRepository hostRepository, AccommodationRepository accommodationRepository) {
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public DataInitializer(CountryRepository countryRepository, HostRepository hostRepository, AccommodationRepository accommodationRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.countryRepository = countryRepository;
         this.hostRepository = hostRepository;
         this.accommodationRepository = accommodationRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
     @PostConstruct
     public void init() {
 
-        // Country countryRepository.save(new Country("United States", "North America"));
-        // Country countryRepository.save(new Country("Japan", "Asia"));
-        // Country countryRepository.save(new Country("Brazil", "South America"));
-        // Country countryRepository.save(new Country("South Africa", "Africa"));
         Country france = countryRepository.save(new Country("France", "Europe"));
         Country germany = countryRepository.save(new Country("Germany", "Europe"));
         Country italy = countryRepository.save(new Country("Italy", "Europe"));
@@ -55,6 +60,10 @@ public class DataInitializer {
         accommodationRepository.save(new Accommodation("Villa Bella2", AccommodationCategory.HOUSE, gustavo, 3));
         accommodationRepository.save(new Accommodation("Villa Bella3", AccommodationCategory.HOUSE, theo, 2));
 
+
+        userRepository.save(new User("host", passwordEncoder.encode("host"), "host", "host", Role.ROLE_HOST));
+
+        userRepository.save(new User("user", passwordEncoder.encode("user"), "user", "user", Role.ROLE_USER));
     }
 }
 
