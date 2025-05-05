@@ -1,4 +1,4 @@
-package mk.ukim.finki.emt2025b.emt2025b.web;
+package mk.ukim.finki.emt2025b.emt2025b.web.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

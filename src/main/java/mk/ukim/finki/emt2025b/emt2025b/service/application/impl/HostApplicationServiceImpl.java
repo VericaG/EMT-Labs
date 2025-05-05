@@ -2,6 +2,8 @@ package mk.ukim.finki.emt2025b.emt2025b.service.application.impl;
 
 import mk.ukim.finki.emt2025b.emt2025b.dto.CreateHostDto;
 import mk.ukim.finki.emt2025b.emt2025b.dto.DisplayHostDto;
+import mk.ukim.finki.emt2025b.emt2025b.model.projections.HostProjection;
+import mk.ukim.finki.emt2025b.emt2025b.model.views.HostsPerCountryView;
 import mk.ukim.finki.emt2025b.emt2025b.service.application.HostApplicationService;
 import mk.ukim.finki.emt2025b.emt2025b.service.domain.HostService;
 import org.springframework.stereotype.Service;
@@ -42,5 +44,15 @@ public class HostApplicationServiceImpl implements HostApplicationService {
     @Override
     public void deleteById(Long id) {
         hostService.deleteById(id);
+    }
+
+    @Override
+    public List<HostsPerCountryView> findHostsByCountry() {
+       return hostService.findHostsByCountry();
+    }
+
+    @Override
+    public List<HostProjection> getNamesAndSurnames() {
+        return hostService.getNamesAndSurnames();
     }
 }

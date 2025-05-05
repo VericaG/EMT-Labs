@@ -3,6 +3,7 @@ package mk.ukim.finki.emt2025b.emt2025b.service.application;
 import mk.ukim.finki.emt2025b.emt2025b.dto.CreateAccommodationDto;
 import mk.ukim.finki.emt2025b.emt2025b.dto.DisplayAccommodationDto;
 import mk.ukim.finki.emt2025b.emt2025b.model.enumerations.AccommodationCategory;
+import mk.ukim.finki.emt2025b.emt2025b.model.views.AccommodationsByHostView;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,4 +18,6 @@ public interface AccommodationApplicationService {
     List<DisplayAccommodationDto> findRecommendedAccomodations(AccommodationCategory category, Long accommodationId);
 
     void deleteById (Long id);
+
+    List<AccommodationsByHostView> findAccommodationsByHost();
 }

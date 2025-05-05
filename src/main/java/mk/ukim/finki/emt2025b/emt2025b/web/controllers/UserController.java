@@ -1,4 +1,4 @@
-package mk.ukim.finki.emt2025b.emt2025b.web;
+package mk.ukim.finki.emt2025b.emt2025b.web.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import mk.ukim.finki.emt2025b.emt2025b.dto.CreateUserDto;
 import mk.ukim.finki.emt2025b.emt2025b.dto.DisplayUserDto;
+import mk.ukim.finki.emt2025b.emt2025b.dto.LoginResponseDto;
 import mk.ukim.finki.emt2025b.emt2025b.dto.LoginUserDto;
 import mk.ukim.finki.emt2025b.emt2025b.model.exceptions.InvalidArgumentsException;
 import mk.ukim.finki.emt2025b.emt2025b.model.exceptions.InvalidUserCredentialsException;
@@ -54,14 +55,11 @@ public class UserController {
             ), @ApiResponse(responseCode = "404", description = "Invalid username or password")}
     )
     @PostMapping("/login")
-    public ResponseEntity<DisplayUserDto> login(HttpServletRequest request) {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginUserDto loginUserDto) {
         try {
-            DisplayUserDto displayUserDto = userApplicationService.login(
-                    new LoginUserDto(request.getParameter("username"), request.getParameter("password"))
-            ).orElseThrow(InvalidUserCredentialsException::new);
-
-            request.getSession().setAttribute("user", displayUserDto.toUser());
-            return ResponseEntity.ok(displayUserDto);
+            return userApplicationService.login(loginUserDto)
+                    .map(ResponseEntity::ok)
+                    .orElseThrow(InvalidUserCredentialsException::new);
         } catch (InvalidUserCredentialsException e) {
             return ResponseEntity.notFound().build();
         }

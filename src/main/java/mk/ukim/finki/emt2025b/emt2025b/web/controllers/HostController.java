@@ -1,14 +1,13 @@
-package mk.ukim.finki.emt2025b.emt2025b.web;
+package mk.ukim.finki.emt2025b.emt2025b.web.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import mk.ukim.finki.emt2025b.emt2025b.dto.DisplayHostDto;
-import mk.ukim.finki.emt2025b.emt2025b.model.domain.Host;
 import mk.ukim.finki.emt2025b.emt2025b.dto.CreateHostDto;
+import mk.ukim.finki.emt2025b.emt2025b.model.projections.HostProjection;
+import mk.ukim.finki.emt2025b.emt2025b.model.views.HostsPerCountryView;
 import mk.ukim.finki.emt2025b.emt2025b.service.application.CountryApplicationService;
 import mk.ukim.finki.emt2025b.emt2025b.service.application.HostApplicationService;
-import mk.ukim.finki.emt2025b.emt2025b.service.domain.CountryService;
-import mk.ukim.finki.emt2025b.emt2025b.service.domain.HostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,4 +67,15 @@ public class HostController {
         return ResponseEntity.notFound().build();
     }
 
+    @Operation(summary = "Get hosts by country", description = "Retrieves a list of countries and number of hosts.")
+    @GetMapping("/by-country")
+    public List<HostsPerCountryView> findHostsByCountry() {
+        return hostService.findHostsByCountry();
+    }
+
+    @Operation(summary = "Get names and surnames of hosts", description = "Retrieves a list of hosts with their names and surnames.")
+    @GetMapping("/names")
+    public List<HostProjection> getNamesAndSurnamesForHosts() {
+        return hostService.getNamesAndSurnames();
+    }
 }

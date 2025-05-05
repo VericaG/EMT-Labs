@@ -3,7 +3,9 @@ package mk.ukim.finki.emt2025b.emt2025b.service.domain.impl;
 import mk.ukim.finki.emt2025b.emt2025b.model.domain.Accommodation;
 import mk.ukim.finki.emt2025b.emt2025b.dto.CreateAccommodationDto;
 import mk.ukim.finki.emt2025b.emt2025b.model.enumerations.AccommodationCategory;
+import mk.ukim.finki.emt2025b.emt2025b.model.views.AccommodationsByHostView;
 import mk.ukim.finki.emt2025b.emt2025b.repository.AccommodationRepository;
+import mk.ukim.finki.emt2025b.emt2025b.repository.AccommodationsByHostViewRepository;
 import mk.ukim.finki.emt2025b.emt2025b.service.domain.AccommodationService;
 import mk.ukim.finki.emt2025b.emt2025b.service.domain.CountryService;
 import mk.ukim.finki.emt2025b.emt2025b.service.domain.HostService;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AccommodationServiceImpl implements AccommodationService {
@@ -18,11 +21,13 @@ public class AccommodationServiceImpl implements AccommodationService {
     private final AccommodationRepository accommodationRepository;
     private final CountryService countryService;
     private final HostService hostService;
+    private final AccommodationsByHostViewRepository accommodationsByHostViewRepository;
 
-    public AccommodationServiceImpl(AccommodationRepository accommodationRepository, CountryService countryService, HostService hostService) {
+    public AccommodationServiceImpl(AccommodationRepository accommodationRepository, CountryService countryService, HostService hostService, AccommodationsByHostViewRepository accommodationsByHostViewRepository) {
         this.accommodationRepository = accommodationRepository;
         this.countryService = countryService;
         this.hostService = hostService;
+        this.accommodationsByHostViewRepository = accommodationsByHostViewRepository;
     }
 
     @Override
@@ -83,7 +88,17 @@ public class AccommodationServiceImpl implements AccommodationService {
     public List<Accommodation> findRecommendedAccomodations(AccommodationCategory category, Long accommodationId) {
         Accommodation accommodation = this.findById(accommodationId).get();
         AccommodationCategory cat = accommodation.getCategory();
-        return this.accommodationRepository.findAllByCategoryAndIdNot(cat, accommodationId);
+        return this.accommodationRepository.findAllByCategoryAndIdNot(cat, accommodationId).stream().collect(Collectors.toList());
+    }
+
+    @Override
+    public void refreshMaterializedView() {
+        accommodationsByHostViewRepository.refreshMaterializedView();
+    }
+
+    @Override
+    public List<AccommodationsByHostView> findAccommodationsByHost() {
+        return accommodationsByHostViewRepository.findAll();
     }
 
 

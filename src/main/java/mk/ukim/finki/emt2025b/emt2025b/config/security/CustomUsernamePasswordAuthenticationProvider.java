@@ -1,4 +1,4 @@
-package mk.ukim.finki.emt2025b.emt2025b.config;
+package mk.ukim.finki.emt2025b.emt2025b.config.security;
 import mk.ukim.finki.emt2025b.emt2025b.service.domain.UserService;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;

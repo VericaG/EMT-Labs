@@ -1,6 +1,5 @@
-package mk.ukim.finki.emt2025b.emt2025b.config;
+package mk.ukim.finki.emt2025b.emt2025b.config.init;
 
-import jakarta.annotation.PostConstruct;
 import mk.ukim.finki.emt2025b.emt2025b.model.domain.Accommodation;
 import mk.ukim.finki.emt2025b.emt2025b.model.domain.Country;
 import mk.ukim.finki.emt2025b.emt2025b.model.domain.Host;
@@ -33,7 +32,7 @@ public class DataInitializer {
     }
 
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
 
         Country france = countryRepository.save(new Country("France", "Europe"));

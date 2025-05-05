@@ -5,6 +5,7 @@ import mk.ukim.finki.emt2025b.emt2025b.dto.DisplayAccommodationDto;
 import mk.ukim.finki.emt2025b.emt2025b.model.domain.Accommodation;
 import mk.ukim.finki.emt2025b.emt2025b.model.domain.Host;
 import mk.ukim.finki.emt2025b.emt2025b.model.enumerations.AccommodationCategory;
+import mk.ukim.finki.emt2025b.emt2025b.model.views.AccommodationsByHostView;
 import mk.ukim.finki.emt2025b.emt2025b.service.application.AccommodationApplicationService;
 import mk.ukim.finki.emt2025b.emt2025b.service.domain.AccommodationService;
 import mk.ukim.finki.emt2025b.emt2025b.service.domain.CountryService;
@@ -79,5 +80,10 @@ public class AccommodationApplicationServiceImpl implements AccommodationApplica
     @Override
     public void deleteById(Long id) {
         accommodationService.deleteById(id);
+    }
+
+    @Override
+    public List<AccommodationsByHostView> findAccommodationsByHost() {
+        return accommodationService.findAccommodationsByHost();
     }
 }

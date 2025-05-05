@@ -1,7 +1,8 @@
-package mk.ukim.finki.emt2025b.emt2025b.config;
+package mk.ukim.finki.emt2025b.emt2025b.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -15,10 +16,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@Profile("test")
 public class WebSecurityConfig {
 
     private final CustomUsernamePasswordAuthenticationProvider authenticationProvider;
@@ -30,7 +31,7 @@ public class WebSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOrigins(List.of("http://localhost:8080"));
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000"));
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
         corsConfiguration.setAllowedHeaders(List.of("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -45,7 +46,7 @@ public class WebSecurityConfig {
                         corsConfigurationSource()))
                 .authorizeHttpRequests(requests -> requests.requestMatchers(
                         "/api/**"
-                ).permitAll().anyRequest().permitAll())
+                ).permitAll().anyRequest().hasRole("HOST"))
                 .formLogin((form) -> form.loginProcessingUrl(
                                 "/api/user/login")
                         .permitAll()

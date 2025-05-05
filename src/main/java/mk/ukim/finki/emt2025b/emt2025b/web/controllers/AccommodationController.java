@@ -1,11 +1,11 @@
-package mk.ukim.finki.emt2025b.emt2025b.web;
+package mk.ukim.finki.emt2025b.emt2025b.web.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import mk.ukim.finki.emt2025b.emt2025b.dto.DisplayAccommodationDto;
 import mk.ukim.finki.emt2025b.emt2025b.model.domain.Accommodation;
 import mk.ukim.finki.emt2025b.emt2025b.dto.CreateAccommodationDto;
+import mk.ukim.finki.emt2025b.emt2025b.model.views.AccommodationsByHostView;
 import mk.ukim.finki.emt2025b.emt2025b.service.application.AccommodationApplicationService;
-import mk.ukim.finki.emt2025b.emt2025b.service.domain.AccommodationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -81,6 +81,12 @@ public class AccommodationController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @Operation(summary = "Get accommodations by host", description = "Retrieves a list of hosts and number of accommodations.")
+    @GetMapping("/by-host")
+    public List<AccommodationsByHostView> findAccommodationsByHost() {
+        return accommodationService.findAccommodationsByHost();
     }
 
 }

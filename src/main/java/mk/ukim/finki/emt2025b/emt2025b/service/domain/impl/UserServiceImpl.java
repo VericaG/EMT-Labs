@@ -1,5 +1,7 @@
 package mk.ukim.finki.emt2025b.emt2025b.service.domain.impl;
 
+
+
 import mk.ukim.finki.emt2025b.emt2025b.model.domain.User;
 import mk.ukim.finki.emt2025b.emt2025b.model.enumerations.Role;
 import mk.ukim.finki.emt2025b.emt2025b.model.exceptions.*;
@@ -12,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -51,14 +52,15 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-
     @Override
     public User login(String username, String password) {
-        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+        if (username == null || username.isEmpty() || password == null || password.isEmpty())
             throw new InvalidArgumentsException();
-        }
-        return userRepository.findByUsernameAndPassword(username, password).orElseThrow(
-                InvalidUserCredentialsException::new);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
+        if (!passwordEncoder.matches(password, user.getPassword()))
+            throw new InvalidUserCredentialsException();
+        return user;
     }
-}
 
+}

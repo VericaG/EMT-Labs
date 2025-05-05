@@ -1,12 +1,10 @@
-package mk.ukim.finki.emt2025b.emt2025b.web;
+package mk.ukim.finki.emt2025b.emt2025b.web.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import mk.ukim.finki.emt2025b.emt2025b.dto.DisplayCountryDto;
-import mk.ukim.finki.emt2025b.emt2025b.model.domain.Country;
 import mk.ukim.finki.emt2025b.emt2025b.dto.CreateCountryDto;
 import mk.ukim.finki.emt2025b.emt2025b.service.application.CountryApplicationService;
-import mk.ukim.finki.emt2025b.emt2025b.service.domain.CountryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

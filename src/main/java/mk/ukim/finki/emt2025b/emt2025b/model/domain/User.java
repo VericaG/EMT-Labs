@@ -13,7 +13,11 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "airBnb_users")
+@Table(name = "airbnb_users", indexes = {
+        @Index(name = "idx_username", columnList = "username"),
+        @Index(name = "idx_role", columnList = "role")
+})
+
 public class User implements UserDetails {
 
     @Id
@@ -93,6 +97,30 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return isEnabled;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public List<ReservationsList> getReservationsList() {
+        return reservationsList;
     }
 }
 
