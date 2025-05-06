@@ -1,11 +1,9 @@
 package mk.ukim.finki.emt2025b.emt2025b.service.domain.impl;
 
 import mk.ukim.finki.emt2025b.emt2025b.model.domain.Accommodation;
-import mk.ukim.finki.emt2025b.emt2025b.dto.CreateAccommodationDto;
 import mk.ukim.finki.emt2025b.emt2025b.model.enumerations.AccommodationCategory;
 import mk.ukim.finki.emt2025b.emt2025b.model.views.AccommodationsByHostView;
 import mk.ukim.finki.emt2025b.emt2025b.repository.AccommodationRepository;
-import mk.ukim.finki.emt2025b.emt2025b.repository.AccommodationsByHostViewRepository;
 import mk.ukim.finki.emt2025b.emt2025b.service.domain.AccommodationService;
 import mk.ukim.finki.emt2025b.emt2025b.service.domain.CountryService;
 import mk.ukim.finki.emt2025b.emt2025b.service.domain.HostService;

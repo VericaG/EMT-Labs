@@ -99,28 +99,6 @@ public class User implements UserDetails {
         return isEnabled;
     }
 
-    public String getUsername() {
-        return username;
-    }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public List<ReservationsList> getReservationsList() {
-        return reservationsList;
-    }
 }
 

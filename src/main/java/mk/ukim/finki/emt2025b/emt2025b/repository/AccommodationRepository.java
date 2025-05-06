@@ -15,8 +15,8 @@ import java.util.Optional;
 public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {
 
 
-  //  @Query("SELECT a FROM Accommodation a WHERE a.category = :category AND a.id <> :id")
-   // public List<Accommodation> findAllByCategoryAndIdNot(@Param("category") AccommodationCategory category, @Param("id") Long id);
+//    @Query("SELECT a FROM Accommodation a WHERE a.category = :category AND a.id <> :id")
+//    public List<Accommodation> findAllByCategoryAndIdNot(@Param("category") AccommodationCategory category, @Param("id") Long id);
 
   Optional<Accommodation> findAllByCategoryAndIdNot(AccommodationCategory category, Long id);
 

@@ -48,7 +48,7 @@ create table reservations_list
 create table reservations_list_accommodations
 (
     reservations_list_id bigint references reservations_list on delete cascade,
-    accommodation_id      bigint references accommodation on delete cascade,
+    accommodation_id     bigint references accommodation on delete cascade,
     primary key (reservations_list_id, accommodation_id)
 );
 

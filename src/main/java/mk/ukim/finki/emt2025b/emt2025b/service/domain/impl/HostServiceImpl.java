@@ -2,11 +2,9 @@ package mk.ukim.finki.emt2025b.emt2025b.service.domain.impl;
 
 import mk.ukim.finki.emt2025b.emt2025b.events.HostEvent;
 import mk.ukim.finki.emt2025b.emt2025b.model.domain.Host;
-import mk.ukim.finki.emt2025b.emt2025b.dto.CreateHostDto;
 import mk.ukim.finki.emt2025b.emt2025b.model.projections.HostProjection;
 import mk.ukim.finki.emt2025b.emt2025b.model.views.HostsPerCountryView;
 import mk.ukim.finki.emt2025b.emt2025b.repository.HostRepository;
-import mk.ukim.finki.emt2025b.emt2025b.repository.HostsPerCountryRepository;
 import mk.ukim.finki.emt2025b.emt2025b.service.domain.CountryService;
 import mk.ukim.finki.emt2025b.emt2025b.service.domain.HostService;
 import org.springframework.context.ApplicationEventPublisher;
